@@ -38,7 +38,8 @@ def gen_sign(
     timestamp: str,
     app_key: str,
 ):
-    """Signature in headers, see https://opendoc.aqara.cn/docs/%E4%BA%91%E5%AF%B9%E6%8E%A5%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/API%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/Sign%E7%94%9F%E6%88%90%E8%A7%84%E5%88%99.html"""
+    """Signature in headers, see https://opendoc.aqara.cn/docs/%E4%BA%91%E5%AF%B9%E6%8E%A5%E5%BC%80%E5%8F%91%E6%89%8B
+    %E5%86%8C/API%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/Sign%E7%94%9F%E6%88%90%E8%A7%84%E5%88%99.html"""
     s = f"Appid={app_id}&Keyid={key_id}&Nonce={nonce}&Time={timestamp}{app_key}"
     if access_token and len(access_token) > 0:
         s = f"AccessToken={access_token}&{s}"
@@ -53,6 +54,8 @@ class AiotCloud:
     update_token_event_callback = None
 
     def __init__(self, session: ClientSession):
+        self.api_url = None
+        self.country = None
         self.app_id = APP_ID
         self.key_id = KEY_ID
         self.app_key = APP_KEY
@@ -109,9 +112,9 @@ class AiotCloud:
             if only_result:
                 # 这里的异常处理需要优化
                 if jo["code"] != 0:
-                    _LOGGER.warn(f"调用Aiot api失败，返回值：{jo}")
+                    _LOGGER.warning(f"调用Aiot api失败，返回值：{jo}")
                     if jo["code"] == 108:
-                        _LOGGER.warn(f"Aiot令牌过期或异常，正在尝试自动刷新！")
+                        _LOGGER.warning(f"Aiot令牌过期或异常，正在尝试自动刷新！")
                         new_jo = await self.async_refresh_token(self.refresh_token)
                         if new_jo["code"] == 0:
                             _LOGGER.info(f"Aiot令牌更新成功！")
@@ -119,7 +122,7 @@ class AiotCloud:
                                 intent, only_result, list_data, **kwargs
                             )
                         else:
-                            _LOGGER.warn("Aiot令牌更新失败，请重新授权！")
+                            _LOGGER.warning("Aiot令牌更新失败，请重新授权！")
                 return jo.get("result")
             else:
                 return jo

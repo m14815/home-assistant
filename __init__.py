@@ -11,7 +11,6 @@ from .aiot_manager import (
 from .aiot_cloud import AiotCloud
 from .const import *
 
-
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -20,20 +19,15 @@ def data_masking(s: str, n: int) -> str:
 
 
 def gen_auth_entry(
-    account: str, account_type: int, country_code: str, token_result: dict
+        account: str, account_type: int, country_code: str, token_result: dict
 ):
-    auth_entry = {}
-    auth_entry[CONF_ENTRY_AUTH_ACCOUNT] = account
-    auth_entry[CONF_ENTRY_AUTH_ACCOUNT_TYPE] = account_type
-    auth_entry[CONF_ENTRY_AUTH_COUNTRY_CODE] = country_code
-    auth_entry[CONF_ENTRY_AUTH_OPENID] = token_result["openId"]
-    auth_entry[CONF_ENTRY_AUTH_ACCESS_TOKEN] = token_result["accessToken"]
-    auth_entry[CONF_ENTRY_AUTH_EXPIRES_IN] = token_result["expiresIn"]
-    auth_entry[CONF_ENTRY_AUTH_EXPIRES_TIME] = (
-        datetime.datetime.now()
-        + datetime.timedelta(seconds=int(token_result["expiresIn"]))
-    ).strftime("%Y-%m-%d %H:%M:%S")
-    auth_entry[CONF_ENTRY_AUTH_REFRESH_TOKEN] = token_result["refreshToken"]
+    auth_entry = {CONF_ENTRY_AUTH_ACCOUNT: account, CONF_ENTRY_AUTH_ACCOUNT_TYPE: account_type,
+                  CONF_ENTRY_AUTH_COUNTRY_CODE: country_code, CONF_ENTRY_AUTH_OPENID: token_result["openId"],
+                  CONF_ENTRY_AUTH_ACCESS_TOKEN: token_result["accessToken"],
+                  CONF_ENTRY_AUTH_EXPIRES_IN: token_result["expiresIn"], CONF_ENTRY_AUTH_EXPIRES_TIME: (
+                datetime.datetime.now()
+                + datetime.timedelta(seconds=int(token_result["expiresIn"]))
+        ).strftime("%Y-%m-%d %H:%M:%S"), CONF_ENTRY_AUTH_REFRESH_TOKEN: token_result["refreshToken"]}
     return auth_entry
 
 
@@ -69,10 +63,10 @@ async def async_setup_entry(hass, entry):
         aiotcloud: AiotCloud = hass.data[DOMAIN][HASS_DATA_AIOTCLOUD]
         aiotcloud.update_token_event_callback = token_updated
         if (
-            datetime.datetime.strptime(
-                data.get(CONF_ENTRY_AUTH_EXPIRES_TIME), "%Y-%m-%d %H:%M:%S"
-            )
-            <= datetime.datetime.now()
+                datetime.datetime.strptime(
+                    data.get(CONF_ENTRY_AUTH_EXPIRES_TIME), "%Y-%m-%d %H:%M:%S"
+                )
+                <= datetime.datetime.now()
         ):
             resp = aiotcloud.async_refresh_token(
                 data.get(CONF_ENTRY_AUTH_REFRESH_TOKEN)

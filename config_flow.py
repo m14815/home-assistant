@@ -82,7 +82,7 @@ class AqaraBridgeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         self.country_code,
                         resp["result"],
                     )
-                    self.hass.async_add_job(
+                    await self.hass.async_add_job(
                         self.hass.config_entries.flow.async_init(
                             DOMAIN, context={"source": "get_token"}, data=auth_entry
                         )
@@ -119,7 +119,7 @@ class AqaraBridgeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                         self.country_code,
                         resp["result"],
                     )
-                    self.hass.async_add_job(
+                    await self.hass.async_add_job(
                         self.hass.config_entries.flow.async_init(
                             DOMAIN, context={"source": "get_token"}, data=auth_entry
                         )
@@ -145,7 +145,7 @@ class AqaraBridgeFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 dids = user_input[CONF_FIELD_SELECTED_DEVICES]
                 devices = await self._session.async_query_device_info(dids)
                 for device in devices:
-                    self.hass.async_add_job(
+                    await self.hass.async_add_job(
                         self.hass.config_entries.flow.async_init(
                             DOMAIN, context={"source": "select_devices"}, data=device
                         )

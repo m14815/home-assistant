@@ -44,7 +44,8 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
 
 
 class AiotClimateEntity(AiotEntityBase, ClimateEntity):
-    """VRF空调控制器，特殊资源定义，https://opendoc.aqara.cn/docs/%E4%BA%91%E5%AF%B9%E6%8E%A5%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/%E9%99%84%E5%BD%95/%E7%89%B9%E6%AE%8A%E8%B5%84%E6%BA%90%E5%AE%9A%E4%B9%89.html"""
+    """VRF空调控制器，特殊资源定义，https://opendoc.aqara.cn/docs/%E4%BA%91%E5%AF%B9%E6%8E%A5%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C
+    /%E9%99%84%E5%BD%95/%E7%89%B9%E6%AE%8A%E8%B5%84%E6%BA%90%E5%AE%9A%E4%B9%89.html"""
 
     def __init__(self, hass, device, res_params, channel=None, **kwargs):
         AiotEntityBase.__init__(self, hass, device, res_params, TYPE, channel, **kwargs)
@@ -68,7 +69,7 @@ class AiotClimateEntity(AiotEntityBase, ClimateEntity):
 
             await self.async_set_resource("ac_state", new_state_str)
         else:
-            _LOGGER.warn(f"Attr value '{attr_value}' is not supported in {attr_name}")
+            _LOGGER.warning(f"Attr value '{attr_value}' is not supported in {attr_name}")
 
     async def async_set_fan_mode(self, fan_mode: str):
         await self._async_change_ac_state("fan_mode", fan_mode)
