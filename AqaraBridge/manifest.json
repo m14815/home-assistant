@@ -7,6 +7,6 @@
     "issue_tracker": "",
     "requirements": ["rocketmq"],
     "dependencies": [],
-    "codeowners": ["@angeljanne"],
+    "codeowners": ["@m14815"],
     "version": "v0.1.0"
   }
