@@ -3,7 +3,7 @@ import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant import config_entries
 
-from . import init_hass_data, data_masking, gen_auth_entry
+from custom_components import init_hass_data, data_masking, gen_auth_entry
 from .const import (
     DOMAIN,
     CONF_FIELD_ACCOUNT,

@@ -4,12 +4,12 @@ import logging
 
 from homeassistant.helpers import aiohttp_client
 
-from .aiot_manager import (
+from custom_components.aqara_bridge.aiot_manager import (
     AiotManager,
     AiotDevice,
 )
-from .aiot_cloud import AiotCloud
-from .const import *
+from custom_components.aqara_bridge.aiot_cloud import AiotCloud
+from custom_components.aqara_bridge.const import *
 
 _LOGGER = logging.getLogger(__name__)
 
