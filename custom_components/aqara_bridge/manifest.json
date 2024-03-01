@@ -5,7 +5,9 @@
     "iot_class": "cloud_polling",
     "documentation": "",
     "issue_tracker": "",
-    "requirements": ["rocketmq"],
+    "requirements": [
+        "rocketmq"
+    ],
     "dependencies": [],
     "codeowners": ["@m14815"],
     "version": "v0.1.0"
